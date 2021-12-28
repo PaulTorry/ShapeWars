@@ -17,9 +17,10 @@ class Vec {
   integrateTo (b) { return Vec.integrateBetween(this, b) }
   integrateFrom (a) { return Vec.integrateBetween(a, this) }
 
+  cross (b) { return this.x * b.y - this.y * b.x }
   dot (b) { return this.x * b.x + this.y * b.y }
   invert () { return this.scale(-1) }
-  distance (a) { return this.subtract(a).mag }
+  distance (a) { return this.subtsract(a).mag }
 
   bounds (b1, b2 = b1.invert()) {
     const x2 = Math.min(b2.x, b1.x); const x1 = Math.max(b2.x, b1.x)
@@ -56,6 +57,12 @@ class Vec {
 
   static fromCircularCoords (r, theta) {
     return new Vec(r * Math.sin(theta), r * Math.cos(theta))
+  }
+
+  static findAverage (points) {
+    let ave = points.reduce((p, c, i, a) => p.add(c), Vec.zero)
+    ave = ave.scale(1 / points.length)
+    return ave
   }
 }
 // Standard javascipt lint doesnt yet support staic variables
